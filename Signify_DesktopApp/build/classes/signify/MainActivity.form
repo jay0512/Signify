@@ -30,6 +30,7 @@
                   <Component id="browesImgBtn" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="hideDataBtn" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="ImgPath" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="maxDataLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="126" max="32767" attributes="0"/>
           </Group>
@@ -44,7 +45,9 @@
               <Component id="browesImgBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="ImgPath" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="61" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="maxDataLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="38" max="32767" attributes="0"/>
               <Component id="hideDataBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
           </Group>
@@ -85,6 +88,11 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="ImgPath">
+    </Component>
+    <Component class="javax.swing.JLabel" name="maxDataLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Max Data : "/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

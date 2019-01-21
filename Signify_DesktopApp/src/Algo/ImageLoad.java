@@ -8,14 +8,10 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
-/**
- *
- * @author jay
- */
 
 public class ImageLoad
 {
@@ -40,10 +36,12 @@ public class ImageLoad
             for(int j=0;j<original.getWidth();j++)
                 signified.setRGB(i, j,original.getRGB(i,j));
         
-        hideData("Yipee! message retrieved successfully!!",signified);
+        hideData("Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!",signified);
         getProperty(signified);
         String secret= retrieveData(signified);
-        System.out.println("hidden msg:"+secret);*/
+        System.out.println("hidden msg:"+secret);
+
+        System.out.println("MAX: "+getMaxStorableData(signified)+" Alpha: "+getMaxAlphaRequired(signified)+" GAP: "+getAlphaGap(signified));*/
     }
     
     public static boolean isSignified(BufferedImage signified)
@@ -51,19 +49,22 @@ public class ImageLoad
         String[] properties = getProperty(signified).split("!");
         String initialSign = "signify";
         String finalSign = "yfingis";
-        System.out.println(properties[2]);
-        return (properties[0].equals(initialSign) && properties[2].equals(finalSign));
+
+        return (properties[0].equals(initialSign) && properties[2].substring(0,finalSign.length()).equals(finalSign));
     } 
 
     /* to retrieve Data  from signified image */ 
-    public static String retrieveData(BufferedImage signified)
+    public static String retrieveData(String imgPath) throws IOException
     {
+        
+        BufferedImage signified = ImageIO.read(new File(imgPath));
+        
         System.out.println(isSignified(signified));
-        /*if(!isSignified(signified))
+        if(!isSignified(signified))
         {
             System.out.println("Not Signified!");
             return "";
-        }*/
+        }
 
         byte[] nibbles = new byte[getLength(signified)];
         String secret = null;
@@ -188,7 +189,7 @@ public class ImageLoad
 
             hideProperties(textLength,signified);
 
-            String finalPath = "answer_Signify.png"; //_Signify
+            String finalPath = "answer_Signify1.png"; //_Signify
             File outputfile = new File(finalPath);
             ImageIO.write(signified, "png", outputfile);
             
@@ -222,7 +223,7 @@ public class ImageLoad
         return nibbles;
     }
 
-    private static String getStringFromNibbles(byte[] nibbles) throws UnsupportedEncodingException
+    private static String getStringFromNibbles(byte[] nibbles)
     {
         int len=nibbles.length;
         System.out.println(len);
@@ -236,7 +237,7 @@ public class ImageLoad
             bytes[p++]=(byte)(nibbles[k++]<<4 | nibbles[k++]);
             //System.out.print(bytes[p-1]);
         }
-        String str=new String(bytes,"UTF8");
+        String str=new String(bytes);
         // System.out.print(str);
         return str;
     }
@@ -248,14 +249,13 @@ public class ImageLoad
         String reverse = new StringBuilder(sign).reverse().toString();
 
         String property = sign+String.valueOf(length)+reverse;
-        System.out.println(property);
         byte[] nibbles = getNibbles(property);
+        
         try 
         {
             int totalPixles = signified.getHeight()*signified.getWidth();
             int currentPixle;
             int pixleGap = getAlphaGap(signified);
-            System.out.println("Gap "+totalPixles+" "+pixleGap);
             int currentNibble=0;
 
             for(currentPixle=0;currentPixle<totalPixles;currentPixle+=pixleGap)
@@ -286,6 +286,9 @@ public class ImageLoad
         
         System.out.println(getProperty(signified));
         return Integer.parseInt(properties[1]);
+
+        //System.out.println("Here property "+getProperty(signified));
+        //return 78; 
     }
 
     public static String getProperty(BufferedImage signified)
@@ -301,13 +304,17 @@ public class ImageLoad
 
             for(currentPixle=0;currentPixle<totalPixles;currentPixle+=pixleGap)
             {
+                System.out.println("current pixle: "+currentPixle+","+currentPixle/signified.getWidth()+","+currentPixle%signified.getWidth());
                 int pixle = signified.getRGB( currentPixle/signified.getWidth() ,currentPixle%signified.getWidth());
                 //byte alpha1 = (byte)((pixle & 0x0f000000)>>>16);
                 byte alpha1 = (byte)((pixle & 251658240)>>>20);
                 //System.out.print("pixle "+Integer.toBinaryString(pixle)+" ");
-                //System.out.print(Integer.toBinaryString(alpha1)+" and ");
-
+                //System.out.print(Integer.toBinaryString(alpha1)+" and ");              
                 currentPixle+=pixleGap;
+
+                if(currentPixle>=totalPixles) 
+                break;
+
                 pixle = signified.getRGB( currentPixle/signified.getWidth() ,currentPixle%signified.getWidth());
                 //System.out.print("for pixle "+Integer.toBinaryString(pixle)+" ");
                 //byte alpha2 = (byte)((pixle & 0x0f000000)>>>24);
@@ -317,6 +324,7 @@ public class ImageLoad
                 append.add(new Byte((byte)(alpha1|alpha2)));
                 //System.out.println(append.get(append.size()-1));
             }
+            
 
             byte[] bytes = new byte[append.size()];
             for(int i=0;i<append.size();i++)
@@ -324,10 +332,12 @@ public class ImageLoad
 
             property = new String(bytes);
             System.out.println("correct! "+property);
+            System.out.flush();
         }
         catch(Exception e)
         {
-            //System.out.println("getProperty: "+e);
+            System.out.println("getProperty: "+e);
+            System.out.println(signified.getHeight()+","+signified.getWidth());
         }
 
         return property;
@@ -344,13 +354,17 @@ public class ImageLoad
     public static int getMaxAlphaRequired(BufferedImage signified) throws IOException
     {
         int signatureAlpha = 32; //signify! + !fyingis
-        System.out.println("log "+getMaxStorableData(signified)+""+Math.floor(Math.floor(Math.log(getMaxStorableData(signified))/(Math.log(2)*4))));
-        return (int)(Math.floor(Math.log(getMaxStorableData(signified))/(Math.log(2)*4)))+signatureAlpha;
+        
+        int maxAlpha = String.valueOf(getMaxStorableData(signified)).length()*2;
+        maxAlpha+=signatureAlpha;
+
+        return maxAlpha;
     }
 
     //How much gap can be kept between two aplha nibbles which shows length. i.e so that we don't have to store in contigous manner!
     public static int getAlphaGap(BufferedImage signified) throws IOException
     {
+        //return (int)Math.floorDiv(getMaxStorableData(signified),getMaxAlphaRequired(signified));
         return Math.floorDiv(signified.getWidth()*signified.getHeight(),getMaxAlphaRequired(signified));
     }
 }

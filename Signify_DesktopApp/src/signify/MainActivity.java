@@ -42,6 +42,7 @@ public class MainActivity extends javax.swing.JFrame {
         browesImgBtn = new javax.swing.JButton();
         hideDataBtn = new javax.swing.JButton();
         ImgPath = new javax.swing.JLabel();
+        maxDataLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,6 +65,8 @@ public class MainActivity extends javax.swing.JFrame {
             }
         });
 
+        maxDataLabel.setText("Max Data : ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,7 +77,8 @@ public class MainActivity extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(browesImgBtn)
                     .addComponent(hideDataBtn)
-                    .addComponent(ImgPath))
+                    .addComponent(ImgPath)
+                    .addComponent(maxDataLabel))
                 .addContainerGap(126, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -86,7 +90,9 @@ public class MainActivity extends javax.swing.JFrame {
                 .addComponent(browesImgBtn)
                 .addGap(18, 18, 18)
                 .addComponent(ImgPath)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(maxDataLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(hideDataBtn)
                 .addGap(46, 46, 46))
         );
@@ -105,6 +111,13 @@ public class MainActivity extends javax.swing.JFrame {
                     File selectedFile = fileChooser.getSelectedFile();
                     String path= selectedFile.getPath();
                     this.ImgPath.setText(path);
+                try {
+                    BufferedImage imgFile = ImageIO.read(new File(path));
+                    String msg=this.maxDataLabel.getText()+ String.valueOf(ImageLoad.getMaxStorableData(imgFile)/1024)+"kb" ;
+                    this.maxDataLabel.setText(msg);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 }
         
     }//GEN-LAST:event_browesImgBtnActionPerformed
@@ -124,15 +137,8 @@ public class MainActivity extends javax.swing.JFrame {
 
             ImageLoad.hideData(secretMsg,signified);
 
-            original1 = ImageIO.read(new File("/home/jay/Signify/answer_Signify.png"));
-                BufferedImage verified = new BufferedImage(original.getWidth(),original.getHeight(),BufferedImage.TYPE_INT_ARGB);
-
-            for(int i=0;i<original1.getHeight();i++)
-                for(int j=0;j<original1.getWidth();j++)
-                    verified.setRGB(i, j,original1.getRGB(i,j));
-            
-            String secret= ImageLoad.retrieveData(signified);
-            System.out.println("last alpha"+Integer.toBinaryString(verified.getRGB(original1.getHeight()-1, original1.getWidth()-1)) );
+            String secret= ImageLoad.retrieveData("jayMail_Signify.png");
+            //System.out.println("last alpha"+Integer.toBinaryString(verified.getRGB(original1.getHeight()-1, original1.getWidth()-1)) );
             System.out.println("hidden msg:"+secret);
         } catch (IOException ex) {
             Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,6 +187,7 @@ public class MainActivity extends javax.swing.JFrame {
     private javax.swing.JButton browesImgBtn;
     private javax.swing.JButton hideDataBtn;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel maxDataLabel;
     private javax.swing.JTextArea secretMsgTxtArea;
     // End of variables declaration//GEN-END:variables
 }
