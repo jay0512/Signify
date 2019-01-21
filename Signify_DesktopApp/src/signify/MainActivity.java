@@ -37,11 +37,23 @@ public class MainActivity extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         secretMsgTxtArea = new javax.swing.JTextArea();
         browesImgBtn = new javax.swing.JButton();
-        hideDataBtn = new javax.swing.JButton();
         ImgPath = new javax.swing.JLabel();
+        maxDataLabel = new javax.swing.JLabel();
+        hideDataBtn = new javax.swing.JButton();
+        warningLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        browesImgBtn1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        secretDataTxtArea = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        warningMsg1 = new javax.swing.JLabel();
+        retrieveDataBtn = new javax.swing.JButton();
+        dataRetreivePath = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,6 +69,10 @@ public class MainActivity extends javax.swing.JFrame {
             }
         });
 
+        ImgPath.setText(" ");
+
+        maxDataLabel.setText("Max Data : ");
+
         hideDataBtn.setText("Hide Data");
         hideDataBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,31 +80,121 @@ public class MainActivity extends javax.swing.JFrame {
             }
         });
 
+        warningLabel.setForeground(new java.awt.Color(234, 33, 33));
+        warningLabel.setText(" ");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(browesImgBtn)
+                    .addComponent(ImgPath)
+                    .addComponent(warningLabel)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(hideDataBtn)
+                        .addComponent(maxDataLabel)))
+                .addContainerGap(199, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(115, Short.MAX_VALUE)
+                .addComponent(browesImgBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ImgPath)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(maxDataLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(hideDataBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(warningLabel)
+                .addGap(6, 6, 6))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(6, 6, 6)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jTabbedPane1.addTab("Hide Data", jPanel1);
+
+        browesImgBtn1.setText("Browes Image");
+        browesImgBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browesImgBtn1ActionPerformed(evt);
+            }
+        });
+
+        secretDataTxtArea.setColumns(20);
+        secretDataTxtArea.setRows(5);
+        jScrollPane2.setViewportView(secretDataTxtArea);
+
+        jLabel1.setText("Secret Data");
+
+        warningMsg1.setForeground(new java.awt.Color(194, 16, 16));
+        warningMsg1.setText(" ");
+
+        retrieveDataBtn.setText("Retrieve Data");
+        retrieveDataBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                retrieveDataBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(browesImgBtn1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(retrieveDataBtn)
+                    .addComponent(dataRetreivePath)
+                    .addComponent(warningMsg1))
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(browesImgBtn1)
+                .addGap(4, 4, 4)
+                .addComponent(dataRetreivePath)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(retrieveDataBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(warningMsg1)
+                .addGap(6, 6, 6))
+        );
+
+        jTabbedPane1.addTab("Retrive Data", jPanel2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(browesImgBtn)
-                    .addComponent(hideDataBtn)
-                    .addComponent(ImgPath))
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(browesImgBtn)
-                .addGap(18, 18, 18)
-                .addComponent(ImgPath)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(hideDataBtn)
-                .addGap(46, 46, 46))
+            .addComponent(jTabbedPane1)
         );
 
         pack();
@@ -96,50 +202,81 @@ public class MainActivity extends javax.swing.JFrame {
 
     private void browesImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browesImgBtnActionPerformed
         
+        this.warningLabel.setText(" ");
+        
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
         fileChooser.setFileFilter(filter);
-                int returnValue = fileChooser.showOpenDialog(null);
-                if (returnValue == JFileChooser.APPROVE_OPTION) 
-                {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    String path= selectedFile.getPath();
-                    this.ImgPath.setText(path);
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) 
+            {
+                File selectedFile = fileChooser.getSelectedFile();
+                String path= selectedFile.getPath();
+                this.ImgPath.setText(path);
+                try {
+                    BufferedImage imgFile = ImageIO.read(new File(path));
+                    String msg=this.maxDataLabel.getText()+ String.valueOf(ImageLoad.getMaxStorableData(imgFile)/1024)+"kb" ;
+                    this.maxDataLabel.setText(msg);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
                 }
-        
+            }
+
     }//GEN-LAST:event_browesImgBtnActionPerformed
 
     private void hideDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hideDataBtnActionPerformed
         
         String secretMsg = this.secretMsgTxtArea.getText();
-        
-        BufferedImage original,original1;
+        BufferedImage imgFile;
         try {
-            original = ImageIO.read(new File(this.ImgPath.getText()));
-                BufferedImage signified = new BufferedImage(original.getWidth(),original.getHeight(),BufferedImage.TYPE_INT_ARGB);
-
-            for(int i=0;i<original.getHeight();i++)
-                for(int j=0;j<original.getWidth();j++)
-                    signified.setRGB(i, j,original.getRGB(i,j));
-
-            ImageLoad.hideData(secretMsg,signified);
-
-            original1 = ImageIO.read(new File("/home/jay/Signify/answer_Signify.png"));
-                BufferedImage verified = new BufferedImage(original.getWidth(),original.getHeight(),BufferedImage.TYPE_INT_ARGB);
-
-            for(int i=0;i<original1.getHeight();i++)
-                for(int j=0;j<original1.getWidth();j++)
-                    verified.setRGB(i, j,original1.getRGB(i,j));
-            
-            String secret= ImageLoad.retrieveData(signified);
-            System.out.println("last alpha"+Integer.toBinaryString(verified.getRGB(original1.getHeight()-1, original1.getWidth()-1)) );
-            System.out.println("hidden msg:"+secret);
+            imgFile = ImageIO.read(new File(this.ImgPath.getText()));
+            if(secretMsg.length()*8>ImageLoad.getMaxStorableData(imgFile))
+            {
+                this.warningLabel.setText("Either choose bigger File or shorten your message");
+                return;
+            }
+        } catch (IOException ex) {
+            this.warningLabel.setText("Choose Image File First");
+            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            ImageLoad.hideData(secretMsg,this.ImgPath.getText());
         } catch (IOException ex) {
             Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+        
+        this.secretMsgTxtArea.setText("write your secret message here...");
         
     }//GEN-LAST:event_hideDataBtnActionPerformed
+
+    private void browesImgBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browesImgBtn1ActionPerformed
+        
+        this.secretDataTxtArea.setText("");
+        this.warningMsg1.setText(" ");
+        
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
+        fileChooser.setFileFilter(filter);
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) 
+            {
+                File selectedFile = fileChooser.getSelectedFile();
+                String path= selectedFile.getPath();
+                this.dataRetreivePath.setText(path);
+            }
+    }//GEN-LAST:event_browesImgBtn1ActionPerformed
+
+    private void retrieveDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrieveDataBtnActionPerformed
+       
+        try {
+            String secret= ImageLoad.retrieveData(this.dataRetreivePath.getText());
+            this.secretDataTxtArea.setText(secret);
+        } catch (IOException ex) {
+            this.warningMsg1.setText("Choose Image File First");
+            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_retrieveDataBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,8 +316,20 @@ public class MainActivity extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ImgPath;
     private javax.swing.JButton browesImgBtn;
+    private javax.swing.JButton browesImgBtn1;
+    private javax.swing.JLabel dataRetreivePath;
     private javax.swing.JButton hideDataBtn;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel maxDataLabel;
+    private javax.swing.JButton retrieveDataBtn;
+    private javax.swing.JTextArea secretDataTxtArea;
     private javax.swing.JTextArea secretMsgTxtArea;
+    private javax.swing.JLabel warningLabel;
+    private javax.swing.JLabel warningMsg1;
     // End of variables declaration//GEN-END:variables
 }
