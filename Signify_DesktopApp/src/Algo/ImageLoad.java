@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -17,31 +18,7 @@ public class ImageLoad
 {
     public static void main(String[] args) throws IOException
     {
-        try
-        {
-            /*System.out.println(getMaxStorableData("dslr.JPG"));
-            System.out.println(getMaxAlphaRequired("dslr.JPG"));
-            System.out.println(getAlphaGap("dslr.JPG"));*/
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
-        
-        /*String path="img1.jpg";
-        BufferedImage original = ImageIO.read(new File(path));
-        BufferedImage signified = new BufferedImage(original.getWidth(),original.getHeight(),BufferedImage.TYPE_INT_ARGB);
-        
-        for(int i=0;i<original.getHeight();i++)
-            for(int j=0;j<original.getWidth();j++)
-                signified.setRGB(i, j,original.getRGB(i,j));
-        
-        hideData("Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!Yipee! message retrieved successfully!!",signified);
-        getProperty(signified);
-        String secret= retrieveData(signified);
-        System.out.println("hidden msg:"+secret);
 
-        System.out.println("MAX: "+getMaxStorableData(signified)+" Alpha: "+getMaxAlphaRequired(signified)+" GAP: "+getAlphaGap(signified));*/
     }
     
     public static boolean isSignified(BufferedImage signified)
@@ -63,7 +40,7 @@ public class ImageLoad
         if(!isSignified(signified))
         {
             System.out.println("Not Signified!");
-            return "";
+            return "No secret Data present in image";
         }
 
         byte[] nibbles = new byte[getLength(signified)];
@@ -123,9 +100,15 @@ public class ImageLoad
     }
 
     /* To hide data into image*/
-    public static void hideData(String text,BufferedImage signified)
+    public static void hideData(String text,String path) throws IOException
     {
-        
+        BufferedImage original = ImageIO.read(new File(path));
+        BufferedImage signified = new BufferedImage(original.getWidth(),original.getHeight(),BufferedImage.TYPE_INT_ARGB);
+
+        for(int i=0;i<original.getHeight();i++)
+            for(int j=0;j<original.getWidth();j++)
+                signified.setRGB(i, j,original.getRGB(i,j));
+
         byte[] nibbles = getNibbles(text);
 
         // System.out.println(nibbles.toString());
@@ -189,7 +172,11 @@ public class ImageLoad
 
             hideProperties(textLength,signified);
 
-            String finalPath = "answer_Signify1.png"; //_Signify
+            String[] concatePath=path.split("/");
+            String fullFileName=concatePath[concatePath.length-1];
+            
+            String[] fileName=fullFileName.split(Pattern.quote("."));
+            String finalPath = "/home/jay/Desktop/SignifiedImages/"+fileName[0]+"_Signify.png"; //_Signify
             File outputfile = new File(finalPath);
             ImageIO.write(signified, "png", outputfile);
             
