@@ -5,7 +5,7 @@
  */
 package signify;
 
-import Algo.ImageLoad;
+import Algo.Signify_LSB;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +46,8 @@ public class MainActivity extends javax.swing.JFrame {
         maxDataLabel = new javax.swing.JLabel();
         hideDataBtn = new javax.swing.JButton();
         warningLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         browesImgBtn1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -83,6 +85,15 @@ public class MainActivity extends javax.swing.JFrame {
         warningLabel.setForeground(new java.awt.Color(234, 33, 33));
         warningLabel.setText(" ");
 
+        jButton1.setText("Browse File");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("jLabel2");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -90,13 +101,19 @@ public class MainActivity extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(browesImgBtn)
                     .addComponent(ImgPath)
                     .addComponent(warningLabel)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(hideDataBtn)
-                        .addComponent(maxDataLabel)))
-                .addContainerGap(199, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(browesImgBtn)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(hideDataBtn)
+                                .addComponent(maxDataLabel)))
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jButton1))))
+                .addContainerGap(77, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -107,11 +124,15 @@ public class MainActivity extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(115, Short.MAX_VALUE)
-                .addComponent(browesImgBtn)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(browesImgBtn)
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ImgPath)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(maxDataLabel)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(maxDataLabel)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(hideDataBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -215,7 +236,8 @@ public class MainActivity extends javax.swing.JFrame {
                 this.ImgPath.setText(path);
                 try {
                     BufferedImage imgFile = ImageIO.read(new File(path));
-                    String msg=this.maxDataLabel.getText()+ String.valueOf(ImageLoad.getMaxStorableData(imgFile)/1024)+"kb" ;
+                    System.out.println((long)Signify_LSB.getMaxStorableData(imgFile));
+                    String msg="Max Data:"+ String.valueOf((long)Signify_LSB.getMaxStorableData(imgFile)/(8.0*1024))+"kB" ;//bits/8=bytes
                     this.maxDataLabel.setText(msg);
                 } catch (IOException ex) {
                     Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
@@ -230,7 +252,13 @@ public class MainActivity extends javax.swing.JFrame {
         BufferedImage imgFile;
         try {
             imgFile = ImageIO.read(new File(this.ImgPath.getText()));
-            if(secretMsg.length()*8>ImageLoad.getMaxStorableData(imgFile))
+            System.out.println(secretMsg.length()+" " +(Signify_LSB.getMaxStorableData(imgFile)/8));
+            /*if(secretMsg.length()*8>(Signify_LSB.getMaxStorableData(imgFile)))
+            {
+                this.warningLabel.setText("Either choose bigger File or shorten your message");
+                return;
+            }*/
+            if(new File(this.jLabel2.getText()).length()*8>(Signify_LSB.getMaxStorableData(imgFile)))
             {
                 this.warningLabel.setText("Either choose bigger File or shorten your message");
                 return;
@@ -241,7 +269,8 @@ public class MainActivity extends javax.swing.JFrame {
         }
         
         try {
-            ImageLoad.hideData(secretMsg,this.ImgPath.getText());
+            //Signify_LSB.hideData(secretMsg,this.ImgPath.getText());
+            Signify_LSB.hideData(this.jLabel2.getText(), this.ImgPath.getText());
         } catch (IOException ex) {
             Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -270,13 +299,29 @@ public class MainActivity extends javax.swing.JFrame {
     private void retrieveDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrieveDataBtnActionPerformed
        
         try {
-            String secret= ImageLoad.retrieveData(this.dataRetreivePath.getText());
+            //String secret= Signify_LSB.retrieveData(this.dataRetreivePath.getText());
+            String secret=Signify_LSB.retrieveData(this.dataRetreivePath.getText());
+            System.out.println(secret);
             this.secretDataTxtArea.setText(secret);
         } catch (IOException ex) {
             this.warningMsg1.setText("Choose Image File First");
             Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_retrieveDataBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        //FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
+        //fileChooser.setFileFilter(filter);
+            int returnValue = fileChooser.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) 
+            {
+                File selectedFile = fileChooser.getSelectedFile();
+                String path= selectedFile.getPath();
+                this.jLabel2.setText(path);
+            }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,7 +364,9 @@ public class MainActivity extends javax.swing.JFrame {
     private javax.swing.JButton browesImgBtn1;
     private javax.swing.JLabel dataRetreivePath;
     private javax.swing.JButton hideDataBtn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

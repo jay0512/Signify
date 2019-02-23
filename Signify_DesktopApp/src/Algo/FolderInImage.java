@@ -4,10 +4,13 @@
  * and open the template in the editor.
  */
 package Algo;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,13 +18,32 @@ import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
-public class ImageLoad
+public class FolderInImage
 {
     public static void main(String[] args) throws IOException
     {
 
     }
     
+    public static void recursiveHide(String dir_path)
+    {
+        File folder = new File("/home/you/Desktop");
+        FolderInImage.listFilesForFolder(folder);
+        
+        
+        
+    }
+    
+    public static void listFilesForFolder(File folder)
+    {
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                //nothing in our project
+            } else {
+                System.out.println(fileEntry.getName());
+            }
+        }
+    }
     public static boolean isSignified(BufferedImage signified)
     {
         String[] properties = getProperty(signified).split("!");
@@ -90,7 +112,7 @@ public class ImageLoad
 
             }
 
-            secret=getStringFromNibbles(nibbles);
+            FolderInImage.getImageFromNibbles(nibbles);
 
         }
         catch(Exception e)
@@ -211,7 +233,7 @@ public class ImageLoad
         return nibbles;
     }
 
-    private static String getStringFromNibbles(byte[] nibbles) throws UnsupportedEncodingException
+    private static void getImageFromNibbles(byte[] nibbles) throws UnsupportedEncodingException
     {
         int len=nibbles.length;
         System.out.println(len);
@@ -225,9 +247,22 @@ public class ImageLoad
             bytes[p++]=(byte)(nibbles[k++]<<4 | nibbles[k++]);
             System.out.print(bytes[p-1]+" ");
         }
-        String str=new String(bytes);
+        
+        try { 
+            String finalPath = "/home/jay/Desktop/Dir_In_1_Image/"+""+"_Signify.png"; //_Signify
+            File file = new File(finalPath);
+            OutputStream os = new FileOutputStream(file); 
+
+            os.write(bytes); 
+            //System.out.println("Successfully byte inserted"); 
+            os.close(); 
+        } 
+  
+        catch (Exception e) { 
+            System.out.println("Exception: " + e); 
+        }         //String str=new String(bytes);
         // System.out.print(str);
-        return str;
+        //return str;
     }
 
     //Hide Signature and Length
@@ -356,3 +391,4 @@ public class ImageLoad
         return Math.floorDiv(signified.getWidth()*signified.getHeight(),getMaxAlphaRequired(signified));
     }
 }
+
