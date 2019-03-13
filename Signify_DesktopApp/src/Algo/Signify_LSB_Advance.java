@@ -6,30 +6,27 @@
 package Algo;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-public class Signify_LSB
+public class Signify_LSB_Advance implements ISignify
 {
     public static void main(String[] args) throws IOException
     {
 
     }
     
-    public static boolean isSignified(BufferedImage signified)
+    @Override
+    public boolean isSignified(BufferedImage signified,String sign)
     {
         String[] properties = getProperty(signified).split("!");
         String initialSign = "signify";
@@ -39,7 +36,8 @@ public class Signify_LSB
     } 
 
     /* to retrieve Data  from signified image */ 
-    public static String retrieveData(String imagePath) throws IOException
+    @Override
+    public  String retrieveData(String imagePath,String sign) throws IOException
     {
         
         BufferedImage signified = ImageIO.read(new File(imagePath));
@@ -47,7 +45,7 @@ public class Signify_LSB
         //PrintWriter out   = new PrintWriter(new BufferedWriter(new FileWriter("/home/jay/Desktop/DesignifiedFiles/retrive.txt")));
         
         //System.out.println(isSignified(signified));
-        if(!isSignified(signified))
+        if(!isSignified(signified,sign))
         {
             System.out.println("Not Signified!");
             return "No secret Data present in image";
@@ -66,13 +64,20 @@ public class Signify_LSB
         int currentByte=0;
         long bitPointer=-1;
         int totalBits = bytes.length*8;
+        int pixleGap = getRGBGap(signified,getLength(signified));
+        int[] rgbValues = new int[3];
 
         try
         {
             while(true)
             {
                 Color pixle = new Color(signified.getRGB( currentPixle%signified.getWidth() ,currentPixle/signified.getWidth()));
-                currentPixle++;
+                currentPixle+=pixleGap;
+                System.out.println(currentPixle);
+                
+                rgbValues[0]=pixle.getBlue();
+                rgbValues[1]=pixle.getRed();
+                rgbValues[2]=pixle.getGreen();
 
                 bitPointer++;
 
@@ -85,47 +90,11 @@ public class Signify_LSB
                     currentByte=0;
                     //System.out.println();
                 }                // System.out.println(nibbles[currentNibble-1] +" "+ red);
-                int red = (pixle.getRed() & 1);   //byte red
-                currentByte=( currentByte | (red << 8) );//7
+                int targetColor = (rgbValues[(int)bitPointer%3] & 1);   //byte red
+                currentByte=( currentByte | (targetColor << 8) );//7
                 currentByte=(currentByte>>1)&0xff;
                 //System.out.println("Red currentByte: "+Integer.toBinaryString(currentByte)+" bitpointer"+bitPointer);
                 //System.out.println("\t"+bitPointer+" "+Integer.toBinaryString(pixle.getRed()));
-
-                
-                bitPointer++;
-                // System.out.println(nibbles[currentNibble-1] +" "+ green);
-                if(bitPointer%8 == 0)
-                {
-                    bytes[ (int)bitPointer/8 - 1] = (currentByte);
-                    //System.out.println(currentByte&0xff);
-                    if(bitPointer == totalBits)break;
-                    currentByte=0;                    
-                    //System.out.println();
-
-                }
-                int green = (pixle.getGreen() & 1);
-                currentByte=( currentByte | (green << 8) );
-                currentByte=(currentByte>>1)&0xff;
-                //System.out.println("Green currentByte: "+Integer.toBinaryString(currentByte)+" bitpointer"+bitPointer);
-                //System.out.println("\t"+bitPointer+" "+Integer.toBinaryString(pixle.getGreen()));
-
-                
-                bitPointer++;
-                // System.out.println(nibbles[currentNibble-1] +" "+ blue);
-                if(bitPointer%8 == 0)
-                {
-                    bytes[ (int)bitPointer/8 - 1] = (currentByte);
-                    //System.out.println(currentByte&0xff);
-                    if(bitPointer == totalBits)break;
-                    currentByte=0;
-                    //System.out.println();
-                }
-                int blue = (pixle.getBlue() & 1);
-                currentByte=( currentByte | (blue << 8) );
-                currentByte=(currentByte>>1)&0xff;
-                //System.out.println("Blue currentByte: "+Integer.toBinaryString(currentByte)+" bitpointer"+bitPointer);
-                //System.out.println("\t"+bitPointer+" "+Integer.toBinaryString(pixle.getBlue()));
-
                
             }
 
@@ -151,15 +120,17 @@ public class Signify_LSB
         //out.flush();
         //    out.close();
         }
-        catch(IOException e)
+        catch(Exception e)
         {
+            System.out.println("CurrentPixle:"+currentPixle+" i:"+currentPixle%signified.getWidth()+" j:"+currentPixle/signified.getWidth());
             System.out.println(e);
         }        
         return "your file "+fileName[0]+"_Signify."+ getExtension(signified)+" succesfully designified.";
     }
 
     /* To hide data into image*/
-    public static void hideData(String filePath,String imagePath) throws IOException
+    @Override
+    public void hideData(String filePath,String imagePath,String sign) throws IOException
     {
         File file = new File(filePath);
         
@@ -168,7 +139,7 @@ public class Signify_LSB
         FileInputStream reader=new FileInputStream(filePath);
         String extension = FilenameUtils.getExtension(filePath);
         long size = file.length();
-        
+                
         BufferedImage original = ImageIO.read(new File(imagePath));
         BufferedImage signified = new BufferedImage(original.getWidth(),original.getHeight(),BufferedImage.TYPE_INT_ARGB);
 
@@ -181,15 +152,27 @@ public class Signify_LSB
         int currentPixle=0;
         int currentByte=0;
         long bitPointer=0;
+        int pixleGap = getRGBGap(signified,size);
         
+        int[] rgbValues = new int[3];
+        
+        //System.out.println(signified.getHeight()+" h/w  "+signified.getWidth()+" "+signified.getHeight()*signified.getWidth());
+        //System.out.println("pixles req"+((size*8)/3));
+        //System.out.println("FileSize "+size);
+        //System.out.println("pixle gap "+pixleGap);
+
         try 
         {
             //img.getHeight()*img.getWidth()
             while(true)
             {
                 Color pixle = new Color(signified.getRGB( currentPixle%signified.getWidth() ,currentPixle/signified.getWidth()));
-                //System.out.println(Integer.toBinaryString(pixle.getRGB()));
-                int red=0,blue=0,green=0;
+                System.out.println(Integer.toBinaryString(pixle.getRGB()));
+                
+                rgbValues[0]=pixle.getBlue();
+                rgbValues[1]=pixle.getRed();
+                rgbValues[2]=pixle.getGreen();
+                
                 if(bitPointer%8 == 0)
                 {
                     if(bitPointer == size*8)break;
@@ -197,59 +180,22 @@ public class Signify_LSB
                     //System.out.println(currentByte&0xff);
                     //out.println(Integer.toBinaryString(currentByte));
                 }
-                red = pixle.getRed();
-                red = (red & 254) | (currentByte & 1);
+                
+                rgbValues[(int)bitPointer%3] = (rgbValues[(int)bitPointer%3] & 254) | (currentByte & 1);
                 bitPointer++;
                 currentByte=currentByte>>1;
                 //System.out.println("red "+Integer.toBinaryString(red));
 
-                if(bitPointer%8 == 0)
-                {
-                    if(bitPointer == size*8)
-                    {
-                        int rgb = (pixle.getAlpha()<<24 | red << 16 | pixle.getGreen() << 8 | pixle.getBlue());
-                        signified.setRGB(currentPixle%signified.getWidth() ,currentPixle/signified.getWidth(),rgb);
-                        break;
-                    }                    currentByte=reader.read();
-                    //System.out.println(currentByte&0xff);
-                    //out.println(Integer.toBinaryString(currentByte));
-                }
-                green = pixle.getGreen();
-                green = (green & 254) | (currentByte & 1);
-                bitPointer++;
-                currentByte=currentByte>>1;
-                //System.out.println("green "+Integer.toBinaryString(green));
-                // System.out.println(nibbles[currentNibble-1] +" "+ green);
-
-                if(bitPointer%8 == 0)
-                {
-                    if(bitPointer == size*8)
-                    {
-                        int rgb = (pixle.getAlpha()<<24 | red << 16 | green << 8 | pixle.getBlue());
-                        signified.setRGB(currentPixle%signified.getWidth() ,currentPixle/signified.getWidth(),rgb);
-                        break;
-                    }
-                    currentByte=reader.read();
-                    //System.out.println(currentByte&0xff);
-                    //out.println(Integer.toBinaryString(currentByte));
-                }
-                blue = pixle.getBlue();
-                blue = (blue & 254) | (currentByte & 1);
-                bitPointer++;
-                currentByte=currentByte>>1;
-                //System.out.println("blue "+Integer.toBinaryString(blue));
-                // System.out.println(nibbles[currentNibble-1] +" "+ blue);
-
-                int rgb = (pixle.getAlpha()<<24 | red << 16 | green << 8 | blue);
+                int rgb = (pixle.getAlpha()<<24 | rgbValues[1] << 16 | rgbValues[2] << 8 | rgbValues[0]);
 
                 signified.setRGB(currentPixle%signified.getWidth() ,currentPixle/signified.getWidth(),rgb);
                 //System.out.println(" after "+Integer.toBinaryString(signified.getRGB(currentPixle%signified.getWidth() ,currentPixle/signified.getWidth())));
 
-                currentPixle++;
+                currentPixle+=pixleGap;
 
             }
-            
-            hideProperties(size,extension,signified);
+
+            hideProperties(size,extension,signified,sign);
 
             String[] concatePath=imagePath.split("/");
             String fullFileName=concatePath[concatePath.length-1];
@@ -271,7 +217,8 @@ public class Signify_LSB
     }
     
     //Hide Signature and Length
-    public static void hideProperties(long length,String extension,BufferedImage signified)
+    @Override
+    public void hideProperties(long length,String extension,BufferedImage signified,String _sign)
     {
         String sign = "signify!";
         String reverse = new StringBuilder(sign).reverse().toString();
@@ -313,13 +260,14 @@ public class Signify_LSB
             }
 
         }
-        catch(Exception e)
+        catch(IOException e)
         {
             System.out.println("*********"+e);
         }
     }
 
-    public static int getLength(BufferedImage signified)
+    @Override
+    public int getLength(BufferedImage signified)
     {
         String[] properties = getProperty(signified).split("!");
         
@@ -330,13 +278,15 @@ public class Signify_LSB
         //return 78; 
     }
     
-    public static String getExtension(BufferedImage signified)
+    @Override
+    public String getExtension(BufferedImage signified)
     {
         String[] properties = getProperty(signified).split("!");
         return properties[3];
     }
 
-    public static String getProperty(BufferedImage signified)
+    @Override
+    public String getProperty(BufferedImage signified)
     {       
         String property="";
 
@@ -384,7 +334,8 @@ public class Signify_LSB
         return property;
     }
     //Max data that can be hidden in the image
-    public static long getMaxStorableData(BufferedImage signified) throws IOException
+    @Override
+    public long getMaxStorableData(BufferedImage signified) throws IOException
     {
         long maxStorableData = ((long)signified.getHeight()*signified.getWidth()*3);
         System.out.println(maxStorableData+" "+(long)signified.getHeight()+" "+signified.getWidth());
@@ -393,7 +344,8 @@ public class Signify_LSB
     }
 
     //No of pixles alpha nibbles required to store length and signature of the data
-    public static int getMaxAlphaRequired(BufferedImage signified) throws IOException
+    @Override
+    public int getMaxAlphaRequired(BufferedImage signified) throws IOException
     {
         int longestFileExtension=12;
         int signatureAlpha = (16+longestFileExtension)*8; //signify! + !fyingis
@@ -403,11 +355,25 @@ public class Signify_LSB
 
         return maxAlpha;
     }
+    @Override
+    public int getRGBRequired(BufferedImage signified, long secretFileSize) throws IOException
+    {
+        int requiredRGB = (int)secretFileSize*8;
+        
+        return requiredRGB;
+    }
 
     //How much gap can be kept between two aplha nibbles which shows length. i.e so that we don't have to store in contigous manner!
-    public static int getAlphaGap(BufferedImage signified) throws IOException
+    @Override
+    public int getAlphaGap(BufferedImage signified) throws IOException
     {
         //return (int)Math.floorDiv(getMaxStorableData(signified),getMaxAlphaRequired(signified));
         return Math.floorDiv(signified.getWidth()*signified.getHeight(),getMaxAlphaRequired(signified));
+    }
+    @Override
+    public int getRGBGap(BufferedImage signified,long secretFileSize) throws IOException
+    {
+        //return (int)Math.floorDiv(getMaxStorableData(signified),getMaxAlphaRequired(signified));
+        return Math.floorDiv(signified.getWidth()*signified.getHeight(),getRGBRequired(signified,secretFileSize));
     }
 }

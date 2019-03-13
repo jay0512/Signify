@@ -8,6 +8,7 @@ package signify;
 import Algo.ISignify;
 import Algo.Signify_LSB_Basic;
 import Algo.Signify_LSB_Modrate;
+import Algo.Signify_LSB_Advance;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -99,15 +100,15 @@ public class MainActivity extends javax.swing.JFrame {
         jLabel2.setText("File Path :");
 
         buttonGroup1.add(jRadioButtonBasic);
-        jRadioButtonBasic.setText("Basic");
+        jRadioButtonBasic.setText("Basic [More Data, Low Security]");
 
         buttonGroup1.add(jRadioButtonModrate);
-        jRadioButtonModrate.setText("Modrate");
+        jRadioButtonModrate.setText("Modrate [More Data, Modrate Security]");
 
         buttonGroup1.add(jRadioButtonAdvanced);
-        jRadioButtonAdvanced.setText("Advanced");
+        jRadioButtonAdvanced.setText("Advanced [Less Data, High Security]");
 
-        jLabel3.setText("Security Level");
+        jLabel3.setText("Signification Preference");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -127,11 +128,9 @@ public class MainActivity extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButtonBasic)
                             .addComponent(jRadioButtonModrate)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jRadioButtonAdvanced)
-                                .addGap(2, 2, 2))
+                            .addComponent(jRadioButtonAdvanced)
                             .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 131, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jOptionPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -256,7 +255,7 @@ public class MainActivity extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
 
         pack();
@@ -312,12 +311,12 @@ public class MainActivity extends javax.swing.JFrame {
             }
             else if(jRadioButtonAdvanced.isSelected())
             {
-                //signify=new Signify_LSB_Advanced();
+                signify=new Signify_LSB_Advance();
             }
             else
             {
                 this.warningLabel.setForeground(Color.red);
-                this.warningLabel.setText("Please Select Level of Security");
+                this.warningLabel.setText("Please Select Signification Preference");
                 return;
             }
             
@@ -374,7 +373,7 @@ public class MainActivity extends javax.swing.JFrame {
             }
             else if(jRadioButtonAdvanced1.isSelected())
             {
-                //signify=new Signify_LSB_Advanced();
+                signify=new Signify_LSB_Advance();
             }
             else
             {

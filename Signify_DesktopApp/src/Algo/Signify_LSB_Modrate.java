@@ -193,9 +193,9 @@ public class Signify_LSB_Modrate implements ISignify
             //img.getHeight()*img.getWidth()
             while(true)
             {
-                Color pixle = new Color(signified.getRGB( currentPixle%signified.getWidth() ,currentPixle/signified.getWidth()));
+                /*Color pixle = new Color(signified.getRGB( currentPixle%signified.getWidth() ,currentPixle/signified.getWidth()));
                 System.out.println(Integer.toBinaryString(pixle.getRGB()));
-                int red=0,blue=0,green=0;
+                int red=0,blue=0,green=0;*/
                 if(bitPointer%8 == 0)
                 {
                     if(bitPointer == size*8)break;
@@ -203,6 +203,10 @@ public class Signify_LSB_Modrate implements ISignify
                     //System.out.println(currentByte&0xff);
                     //out.println(Integer.toBinaryString(currentByte));
                 }
+                Color pixle = new Color(signified.getRGB( currentPixle%signified.getWidth() ,currentPixle/signified.getWidth()));
+                System.out.println(Integer.toBinaryString(pixle.getRGB())+" width:"+currentPixle%signified.getWidth()+" height:"+currentPixle/signified.getWidth());
+                int red=0,blue=0,green=0;
+                
                 red = pixle.getRed();
                 red = (red & 254) | (currentByte & 1);
                 bitPointer++;
@@ -252,6 +256,10 @@ public class Signify_LSB_Modrate implements ISignify
                 //System.out.println(" after "+Integer.toBinaryString(signified.getRGB(currentPixle%signified.getWidth() ,currentPixle/signified.getWidth())));
 
                 currentPixle+=pixleGap;
+                if(currentPixle >= signified.getHeight()*signified.getWidth()-1)
+                {
+                    System.out.println("break here!!");
+                }
 
             }
 
@@ -419,7 +427,7 @@ public class Signify_LSB_Modrate implements ISignify
     @Override
     public int getRGBRequired(BufferedImage signified, long secretFileSize) throws IOException
     {
-        int requiredRGB = (int)Math.ceil((secretFileSize*8)/3);
+        int requiredRGB = (int)Math.ceil((secretFileSize*8.0)/3);
         
         return requiredRGB;
     }
