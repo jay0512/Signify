@@ -5,7 +5,11 @@
  */
 package signify;
 
-import Algo.Signify_LSB;
+import Algo.ISignify;
+import Algo.Signify_LSB_Basic;
+import Algo.Signify_LSB_Modrate;
+import Algo.Signify_LSB_Advance;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class MainActivity extends javax.swing.JFrame {
 
+    BufferedImage imgFile;
     /**
      * Creates new form MainActivity
      */
@@ -37,10 +42,10 @@ public class MainActivity extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        secretMsgTxtArea = new javax.swing.JTextArea();
         browesImgBtn = new javax.swing.JButton();
         ImgPath = new javax.swing.JLabel();
         maxDataLabel = new javax.swing.JLabel();
@@ -48,21 +53,22 @@ public class MainActivity extends javax.swing.JFrame {
         warningLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jRadioButtonBasic = new javax.swing.JRadioButton();
+        jRadioButtonModrate = new javax.swing.JRadioButton();
+        jRadioButtonAdvanced = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        jOptionPane3 = new javax.swing.JOptionPane();
         jPanel2 = new javax.swing.JPanel();
         browesImgBtn1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        secretDataTxtArea = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         warningMsg1 = new javax.swing.JLabel();
         retrieveDataBtn = new javax.swing.JButton();
         dataRetreivePath = new javax.swing.JLabel();
+        jOptionPane1 = new javax.swing.JOptionPane();
+        jRadioButtonBasic1 = new javax.swing.JRadioButton();
+        jRadioButtonModrate1 = new javax.swing.JRadioButton();
+        jRadioButtonAdvanced1 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        secretMsgTxtArea.setColumns(20);
-        secretMsgTxtArea.setRows(5);
-        secretMsgTxtArea.setText("write your secret message here...");
-        jScrollPane1.setViewportView(secretMsgTxtArea);
 
         browesImgBtn.setText("Browes Image");
         browesImgBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -71,9 +77,9 @@ public class MainActivity extends javax.swing.JFrame {
             }
         });
 
-        ImgPath.setText(" ");
+        ImgPath.setText("Image Path : ");
 
-        maxDataLabel.setText("Max Data : ");
+        maxDataLabel.setText("Max Storable Data : ");
 
         hideDataBtn.setText("Hide Data");
         hideDataBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -92,7 +98,33 @@ public class MainActivity extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("jLabel2");
+        jLabel2.setText("File Path :");
+
+        buttonGroup1.add(jRadioButtonBasic);
+        jRadioButtonBasic.setText("Basic [More Data, Low Security]");
+        jRadioButtonBasic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonBasicActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButtonModrate);
+        jRadioButtonModrate.setText("Modrate [More Data, Modrate Security]");
+        jRadioButtonModrate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonModrateActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButtonAdvanced);
+        jRadioButtonAdvanced.setText("Advanced [Less Data, High Security]");
+        jRadioButtonAdvanced.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonAdvancedActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Signification Preference");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -100,49 +132,63 @@ public class MainActivity extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ImgPath)
-                    .addComponent(warningLabel)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(maxDataLabel)
+                            .addComponent(hideDataBtn)
+                            .addComponent(warningLabel)
+                            .addComponent(ImgPath))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(browesImgBtn)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(hideDataBtn)
-                                .addComponent(maxDataLabel)))
-                        .addGap(29, 29, 29)
+                            .addComponent(jRadioButtonBasic)
+                            .addComponent(jRadioButtonModrate)
+                            .addComponent(jRadioButtonAdvanced)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jButton1))))
-                .addContainerGap(77, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jOptionPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(browesImgBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(159, 159, 159))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(115, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(browesImgBtn)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(browesImgBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRadioButtonBasic)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jRadioButtonModrate)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jRadioButtonAdvanced)
+                        .addGap(44, 44, 44))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addGap(60, 60, 60)
+                        .addComponent(jOptionPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(ImgPath)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(maxDataLabel)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(hideDataBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(maxDataLabel)
+                .addGap(18, 18, 18)
+                .addComponent(hideDataBtn)
+                .addGap(18, 18, 18)
                 .addComponent(warningLabel)
-                .addGap(6, 6, 6))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(6, 6, 6)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(22, 22, 22))
         );
 
         jTabbedPane1.addTab("Hide Data", jPanel1);
@@ -154,12 +200,6 @@ public class MainActivity extends javax.swing.JFrame {
             }
         });
 
-        secretDataTxtArea.setColumns(20);
-        secretDataTxtArea.setRows(5);
-        jScrollPane2.setViewportView(secretDataTxtArea);
-
-        jLabel1.setText("Secret Data");
-
         warningMsg1.setForeground(new java.awt.Color(194, 16, 16));
         warningMsg1.setText(" ");
 
@@ -170,20 +210,34 @@ public class MainActivity extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup2.add(jRadioButtonBasic1);
+        jRadioButtonBasic1.setText("Basic [More Data, Low Security]");
+
+        buttonGroup2.add(jRadioButtonModrate1);
+        jRadioButtonModrate1.setText("Modrate [More Data, Modrate Security]");
+
+        buttonGroup2.add(jRadioButtonAdvanced1);
+        jRadioButtonAdvanced1.setText("Advanced [Less Data, High Security]");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(206, Short.MAX_VALUE)
+                .addComponent(jOptionPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(131, 131, 131))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(browesImgBtn1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
                     .addComponent(retrieveDataBtn)
                     .addComponent(dataRetreivePath)
-                    .addComponent(warningMsg1))
-                .addContainerGap(48, Short.MAX_VALUE))
+                    .addComponent(warningMsg1)
+                    .addComponent(jRadioButtonBasic1)
+                    .addComponent(jRadioButtonModrate1)
+                    .addComponent(jRadioButtonAdvanced1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,13 +248,17 @@ public class MainActivity extends javax.swing.JFrame {
                 .addComponent(dataRetreivePath)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(retrieveDataBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addGap(65, 65, 65)
+                .addComponent(jOptionPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(jRadioButtonBasic1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButtonModrate1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButtonAdvanced1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                 .addComponent(warningMsg1)
-                .addGap(6, 6, 6))
+                .addGap(27, 27, 27))
         );
 
         jTabbedPane1.addTab("Retrive Data", jPanel2);
@@ -209,9 +267,7 @@ public class MainActivity extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,7 +280,7 @@ public class MainActivity extends javax.swing.JFrame {
     private void browesImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browesImgBtnActionPerformed
         
         this.warningLabel.setText(" ");
-        
+        ISignify signify=new Signify_LSB_Basic();
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
         fileChooser.setFileFilter(filter);
@@ -235,9 +291,9 @@ public class MainActivity extends javax.swing.JFrame {
                 String path= selectedFile.getPath();
                 this.ImgPath.setText(path);
                 try {
-                    BufferedImage imgFile = ImageIO.read(new File(path));
-                    System.out.println((long)Signify_LSB.getMaxStorableData(imgFile));
-                    String msg="Max Data:"+ String.valueOf((long)Signify_LSB.getMaxStorableData(imgFile)/(8.0*1024))+"kB" ;//bits/8=bytes
+                    imgFile = ImageIO.read(new File(path));
+                    System.out.println((long)signify.getMaxStorableData(imgFile));
+                    String msg="Max Storable Data : "+ String.valueOf((long)signify.getMaxStorableData(imgFile)/(8.0*1024))+"kB" ;//bits/8=bytes
                     this.maxDataLabel.setText(msg);
                 } catch (IOException ex) {
                     Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
@@ -248,40 +304,59 @@ public class MainActivity extends javax.swing.JFrame {
 
     private void hideDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hideDataBtnActionPerformed
         
-        String secretMsg = this.secretMsgTxtArea.getText();
         BufferedImage imgFile;
         try {
             imgFile = ImageIO.read(new File(this.ImgPath.getText()));
-            System.out.println(secretMsg.length()+" " +(Signify_LSB.getMaxStorableData(imgFile)/8));
-            /*if(secretMsg.length()*8>(Signify_LSB.getMaxStorableData(imgFile)))
+            
+            ISignify signify=null;
+            String sign="";
+            
+            if(jRadioButtonBasic.isSelected())
             {
-                this.warningLabel.setText("Either choose bigger File or shorten your message");
+                signify=new Signify_LSB_Basic();
+            }
+            else if(jRadioButtonModrate.isSelected())
+            {
+                sign = jOptionPane3.showInputDialog("Enter your Secret Key(Seven Digit Alphanumeric)");
+                if(sign.length()!=7)
+                {
+                    this.warningLabel.setText("Enter exactly seven digit alpha numeric");
+                    return;
+                }
+                signify=new Signify_LSB_Modrate();
+            }
+            else if(jRadioButtonAdvanced.isSelected())
+            {
+                signify=new Signify_LSB_Advance();
+            }
+            else
+            {
+                this.warningLabel.setForeground(Color.red);
+                this.warningLabel.setText("Please Select Signification Preference");
                 return;
-            }*/
-            if(new File(this.jLabel2.getText()).length()*8>(Signify_LSB.getMaxStorableData(imgFile)))
+            }
+            
+            if(new File(this.jLabel2.getText()).length()*8>(signify.getMaxStorableData(imgFile)))
             {
+                this.warningLabel.setForeground(Color.red);
                 this.warningLabel.setText("Either choose bigger File or shorten your message");
                 return;
             }
-        } catch (IOException ex) {
+            signify.hideData(this.jLabel2.getText(), this.ImgPath.getText(),sign);
+            this.warningLabel.setForeground(new Color(19,185,49));
+            this.warningLabel.setText("Data Hidden Successfully");
+        }
+        catch (IOException ex)
+        {
+            this.warningLabel.setForeground(Color.red);
             this.warningLabel.setText("Choose Image File First");
             Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        try {
-            //Signify_LSB.hideData(secretMsg,this.ImgPath.getText());
-            Signify_LSB.hideData(this.jLabel2.getText(), this.ImgPath.getText());
-        } catch (IOException ex) {
-            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.secretMsgTxtArea.setText("write your secret message here...");
         
     }//GEN-LAST:event_hideDataBtnActionPerformed
 
     private void browesImgBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browesImgBtn1ActionPerformed
         
-        this.secretDataTxtArea.setText("");
         this.warningMsg1.setText(" ");
         
         JFileChooser fileChooser = new JFileChooser();
@@ -299,11 +374,38 @@ public class MainActivity extends javax.swing.JFrame {
     private void retrieveDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrieveDataBtnActionPerformed
        
         try {
-            //String secret= Signify_LSB.retrieveData(this.dataRetreivePath.getText());
-            String secret=Signify_LSB.retrieveData(this.dataRetreivePath.getText());
-            System.out.println(secret);
-            this.secretDataTxtArea.setText(secret);
-        } catch (IOException ex) {
+            //String secret= Signify_LSB_Modrate.retrieveData(this.dataRetreivePath.getText());
+            ISignify signify=null;
+            String sign="";
+            
+            if(jRadioButtonBasic1.isSelected())
+            {
+                signify=new Signify_LSB_Basic();
+            }
+            else if(jRadioButtonModrate1.isSelected())
+            {
+                sign = jOptionPane1.showInputDialog("Enter your Secret Key");
+                signify=new Signify_LSB_Modrate();
+            }
+            else if(jRadioButtonAdvanced1.isSelected())
+            {
+                signify=new Signify_LSB_Advance();
+            }
+            else
+            {
+                this.warningMsg1.setForeground(Color.red);
+                this.warningMsg1.setText("Please Select Level of Security");
+                return;
+            }
+            
+            String status=signify.retrieveData(this.dataRetreivePath.getText(),sign);
+            this.warningMsg1.setForeground(new Color(19,185,49));
+            this.warningMsg1.setText(status);
+        
+        } 
+        catch (IOException ex)
+        {
+            this.warningMsg1.setForeground(Color.red);
             this.warningMsg1.setText("Choose Image File First");
             Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -323,6 +425,40 @@ public class MainActivity extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jRadioButtonBasicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonBasicActionPerformed
+        
+        ISignify signify=new Signify_LSB_Basic();
+        String msg="" ;
+        try {
+            msg = "Max Storable Data : "+ String.valueOf((long)signify.getMaxStorableData(imgFile)/(8.0*1024))+"kB"; //bits/8=bytes
+        } catch (IOException ex) {
+            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.maxDataLabel.setText(msg);
+    }//GEN-LAST:event_jRadioButtonBasicActionPerformed
+
+    private void jRadioButtonModrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonModrateActionPerformed
+        ISignify signify=new Signify_LSB_Modrate();
+        String msg="" ;
+        try {
+            msg = "Max Storable Data : "+ String.valueOf((long)signify.getMaxStorableData(imgFile)/(8.0*1024))+"kB"; //bits/8=bytes
+        } catch (IOException ex) {
+            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.maxDataLabel.setText(msg);
+    }//GEN-LAST:event_jRadioButtonModrateActionPerformed
+
+    private void jRadioButtonAdvancedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAdvancedActionPerformed
+        ISignify signify=new Signify_LSB_Advance();
+        String msg="" ;
+        try {
+            msg = "Max Storable Data : "+ String.valueOf((long)signify.getMaxStorableData(imgFile)/(8.0*1024))+"kB"; //bits/8=bytes
+        } catch (IOException ex) {
+            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.maxDataLabel.setText(msg);
+    }//GEN-LAST:event_jRadioButtonAdvancedActionPerformed
+        
     /**
      * @param args the command line arguments
      */
@@ -362,20 +498,26 @@ public class MainActivity extends javax.swing.JFrame {
     private javax.swing.JLabel ImgPath;
     private javax.swing.JButton browesImgBtn;
     private javax.swing.JButton browesImgBtn1;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JLabel dataRetreivePath;
     private javax.swing.JButton hideDataBtn;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JOptionPane jOptionPane1;
+    private javax.swing.JOptionPane jOptionPane3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JRadioButton jRadioButtonAdvanced;
+    private javax.swing.JRadioButton jRadioButtonAdvanced1;
+    private javax.swing.JRadioButton jRadioButtonBasic;
+    private javax.swing.JRadioButton jRadioButtonBasic1;
+    private javax.swing.JRadioButton jRadioButtonModrate;
+    private javax.swing.JRadioButton jRadioButtonModrate1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel maxDataLabel;
     private javax.swing.JButton retrieveDataBtn;
-    private javax.swing.JTextArea secretDataTxtArea;
-    private javax.swing.JTextArea secretMsgTxtArea;
     private javax.swing.JLabel warningLabel;
     private javax.swing.JLabel warningMsg1;
     // End of variables declaration//GEN-END:variables
