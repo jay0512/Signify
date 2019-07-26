@@ -25,6 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class MainActivity extends javax.swing.JFrame {
 
+    BufferedImage imgFile;
     /**
      * Creates new form MainActivity
      */
@@ -101,12 +102,27 @@ public class MainActivity extends javax.swing.JFrame {
 
         buttonGroup1.add(jRadioButtonBasic);
         jRadioButtonBasic.setText("Basic [More Data, Low Security]");
+        jRadioButtonBasic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonBasicActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButtonModrate);
         jRadioButtonModrate.setText("Modrate [More Data, Modrate Security]");
+        jRadioButtonModrate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonModrateActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(jRadioButtonAdvanced);
         jRadioButtonAdvanced.setText("Advanced [Less Data, High Security]");
+        jRadioButtonAdvanced.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonAdvancedActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Signification Preference");
 
@@ -195,13 +211,13 @@ public class MainActivity extends javax.swing.JFrame {
         });
 
         buttonGroup2.add(jRadioButtonBasic1);
-        jRadioButtonBasic1.setText("Basic");
+        jRadioButtonBasic1.setText("Basic [More Data, Low Security]");
 
         buttonGroup2.add(jRadioButtonModrate1);
-        jRadioButtonModrate1.setText("Modrate");
+        jRadioButtonModrate1.setText("Modrate [More Data, Modrate Security]");
 
         buttonGroup2.add(jRadioButtonAdvanced1);
-        jRadioButtonAdvanced1.setText("Advanced");
+        jRadioButtonAdvanced1.setText("Advanced [Less Data, High Security]");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -275,7 +291,7 @@ public class MainActivity extends javax.swing.JFrame {
                 String path= selectedFile.getPath();
                 this.ImgPath.setText(path);
                 try {
-                    BufferedImage imgFile = ImageIO.read(new File(path));
+                    imgFile = ImageIO.read(new File(path));
                     System.out.println((long)signify.getMaxStorableData(imgFile));
                     String msg="Max Storable Data : "+ String.valueOf((long)signify.getMaxStorableData(imgFile)/(8.0*1024))+"kB" ;//bits/8=bytes
                     this.maxDataLabel.setText(msg);
@@ -409,6 +425,40 @@ public class MainActivity extends javax.swing.JFrame {
             }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jRadioButtonBasicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonBasicActionPerformed
+        
+        ISignify signify=new Signify_LSB_Basic();
+        String msg="" ;
+        try {
+            msg = "Max Storable Data : "+ String.valueOf((long)signify.getMaxStorableData(imgFile)/(8.0*1024))+"kB"; //bits/8=bytes
+        } catch (IOException ex) {
+            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.maxDataLabel.setText(msg);
+    }//GEN-LAST:event_jRadioButtonBasicActionPerformed
+
+    private void jRadioButtonModrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonModrateActionPerformed
+        ISignify signify=new Signify_LSB_Modrate();
+        String msg="" ;
+        try {
+            msg = "Max Storable Data : "+ String.valueOf((long)signify.getMaxStorableData(imgFile)/(8.0*1024))+"kB"; //bits/8=bytes
+        } catch (IOException ex) {
+            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.maxDataLabel.setText(msg);
+    }//GEN-LAST:event_jRadioButtonModrateActionPerformed
+
+    private void jRadioButtonAdvancedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonAdvancedActionPerformed
+        ISignify signify=new Signify_LSB_Advance();
+        String msg="" ;
+        try {
+            msg = "Max Storable Data : "+ String.valueOf((long)signify.getMaxStorableData(imgFile)/(8.0*1024))+"kB"; //bits/8=bytes
+        } catch (IOException ex) {
+            Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.maxDataLabel.setText(msg);
+    }//GEN-LAST:event_jRadioButtonAdvancedActionPerformed
+        
     /**
      * @param args the command line arguments
      */

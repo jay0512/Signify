@@ -73,7 +73,7 @@ public class Signify_LSB_Advance implements ISignify
             {
                 Color pixle = new Color(signified.getRGB( currentPixle%signified.getWidth() ,currentPixle/signified.getWidth()));
                 currentPixle+=pixleGap;
-                System.out.println(currentPixle);
+                //System.out.println(currentPixle);
                 
                 rgbValues[0]=pixle.getBlue();
                 rgbValues[1]=pixle.getRed();
@@ -167,7 +167,7 @@ public class Signify_LSB_Advance implements ISignify
             while(true)
             {
                 Color pixle = new Color(signified.getRGB( currentPixle%signified.getWidth() ,currentPixle/signified.getWidth()));
-                System.out.println(Integer.toBinaryString(pixle.getRGB()));
+                //System.out.println(Integer.toBinaryString(pixle.getRGB()));
                 
                 rgbValues[0]=pixle.getBlue();
                 rgbValues[1]=pixle.getRed();
@@ -337,7 +337,7 @@ public class Signify_LSB_Advance implements ISignify
     @Override
     public long getMaxStorableData(BufferedImage signified) throws IOException
     {
-        long maxStorableData = ((long)signified.getHeight()*signified.getWidth()*3);
+        long maxStorableData = ((long)signified.getHeight()*signified.getWidth());
         System.out.println(maxStorableData+" "+(long)signified.getHeight()+" "+signified.getWidth());
         
         return maxStorableData;

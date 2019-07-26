@@ -204,7 +204,7 @@ public class Signify_LSB_Modrate implements ISignify
                     //out.println(Integer.toBinaryString(currentByte));
                 }
                 Color pixle = new Color(signified.getRGB( currentPixle%signified.getWidth() ,currentPixle/signified.getWidth()));
-                System.out.println(Integer.toBinaryString(pixle.getRGB())+" width:"+currentPixle%signified.getWidth()+" height:"+currentPixle/signified.getWidth());
+                //System.out.println(Integer.toBinaryString(pixle.getRGB())+" width:"+currentPixle%signified.getWidth()+" height:"+currentPixle/signified.getWidth());
                 int red=0,blue=0,green=0;
                 
                 red = pixle.getRed();
@@ -256,10 +256,6 @@ public class Signify_LSB_Modrate implements ISignify
                 //System.out.println(" after "+Integer.toBinaryString(signified.getRGB(currentPixle%signified.getWidth() ,currentPixle/signified.getWidth())));
 
                 currentPixle+=pixleGap;
-                if(currentPixle >= signified.getHeight()*signified.getWidth()-1)
-                {
-                    System.out.println("break here!!");
-                }
 
             }
 
