@@ -1,6 +1,7 @@
 # Signify (IMAGE STEGANOGRAPHY APPLICATION)
 Signification application using image steganography.
 
+Demo Video: https://www.youtube.com/watch?v=wIya4Tzkytc
 
 **1.1 Brief Introduction**
 
@@ -99,3 +100,61 @@ Being using java this application in the portable on any os having JVM installed
 **4.4 Retrieve Data Activity Diagram**
 
 ![](https://lh4.googleusercontent.com/6JbRt00Tm8v1OrSdNvRydeMlCDOvhrVgDYH5UGaqGYzdSZEChQ_dJIGk6oY8YJq8WKT0U39fW41JnaI6FqFnFGBGPDTucl2uZid3eMdgcjwwKqfkcsF3BVkSUgLBhjPaGb5eK3Hj)
+
+  
+ **5.1 Unit & Integrity Testing of Software**
+
+**5.1.1 Test Case 1**
+| Parameter name | Value | Description |
+|--|--|--|
+| File path  | /home/user1/Desktop/SRS_Signify.doc | Path of Image in which file needs to be hidden. |
+| Image path | /home/user1/Desktop/DSC7632.jpg | Path of the file which needs to be hidden in an image. |
+|Signification Preference| Basic| The security level of Steganography algorithm|
+| Message | Data Hidden Successfully. | Success Message.|
+
+**5.1.1 Test Case 2**
+
+| Parameter name | Value | Description
+|--|--|--|
+| File path | /home/user1/Desktop/6K7A8924. | Path of Image in which file needs to be hidden.|
+| Image path | /home/user1/Desktop/DSC7632.jpg |Path of the file which needs to be hidden in an image.|
+|Signification Preference|Basic|The security level of Steganography algorithm
+|Message|Too big file to hide in an image.|Failure Message due to oversize of a document file.
+
+  
+  
+
+![](https://lh4.googleusercontent.com/suTxyD43aDyWXd-kg0SfSbvN8GFTg44e0QbDf3XDC3TPBs_XFRrIorKVPN6O1FQXIb1KDEKIf-t8M86cxCIuv0aCmOcx4gkVxqAyGFYjfLspdiU3islePVmkSUgd6ehXKDgkxSsz)
+
+Figure 1 : Hide Data Screen with success message
+
+![](https://lh3.googleusercontent.com/kWdJg4yNdZTQnt0Yxdtb_tSPZUhC_k9XYygZxKpaXHOgFSvln3AtWG6uaBMubH3bX5IUX-rR-5V8T4W2RHiygRF88ZzDW2riIvEZXstuGdZxFwZkhPF3R6GUpoX2JilCQhfiaFm3)
+
+Figure 2 : Retrive Data Screen with retrived File name
+
+  
+  
+  
+
+![](https://lh4.googleusercontent.com/50pP8UouS3lcNxjchi6Q8R8Ggyv9s2FGxtM9UuVdfjvCtY1I9XHpzBw3T_eOPatMSm1ZMG6bd-h_EhqlZfZqwME831ldwdDXI3zTcS2vkrfDmq1GbMAb8o2o9RotiA4h2YecC3AN)
+
+Figure 3 : Error message due to choice of too big file to hide in the image.
+
+![](https://lh4.googleusercontent.com/Rqna21POe26LInTJHl8chiEoNYL_85ead9H1SrRz8fSwpLASmfqWrxO_8NsTGawbJdA1fXNgAxVaZC-aubodcAaeJHLC3jqZQEOIFY5ELpduHtUtfg-9rCdSPkp27HQw7_Ao2jGR)Figure 4 : Password Screen for modrate security.
+
+![](https://lh5.googleusercontent.com/5SOS2I_noaS1Oc6imbO7DRREIRYCWd5bT6edp0bFppL3QmT3NJME0kJmBDSnceRShBvvtLIj8bP9Aw29cM06HvLYjLI7XgPO93eoKlV2-TsYSCR8VT0boqVj5PT8IH35Wx2W15GW)Figure5 : Original Image.![](https://lh6.googleusercontent.com/s18EfWJEq4TmHo49Cwawg9Z7bnpzcNAinAVL--zLtbwY8ChN5syZuVuqBB0y0dCY6jzs9GUh052_JIpNL1j6aSi8UvdjYuBHgiNQ7rTJ4SR1lDQY78JHy9LRK824dtdfrvQI8WUG)
+
+Figure 6 : Signified Image( Contains Hidden data )
+
+  
+  
+  
+  
+  
+
+**6.1  Conclusion**
+Nowadays network security is a major issue, And hiding data is necessity. So this project can be helpful to deliver to intended person over the network with very less probability of it being stolen as its hidden inside the image and Bruteforce attack will take time as in the keyed method of data hiding as the key is of 7 digit alphanumeric (52+10=62 characters) as well as special characters (33 characters) the bruteforce attack will take 69,833,729,609,375 iterations which will take approximately 8 days in morden computers.Hence, this project Chip In a bit in image steganography.
+
+**Future Extension:**
+
+This project can be further extended by making it as peer-to-peer secure file sharing application where the receiver’s hardware address will be there in encrypted form within the image and which will be used to decide whether or not to show the data behind the image to the particular receiver. Hence there won’t be very minimal chances of eavesdropping unless noted otherwise.
